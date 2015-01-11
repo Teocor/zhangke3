@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<style>
+	    .picture
+	    {
+
+	    	width: 600px;
+	    	height:375px;
+	    	margin-left: 20px;
+	    }
+	    .clear{
+	    	clear: both;
+	    }
+	    #bdn{
+	    	padding-left: 0;
+	    	width:100px;
+	    	height: 45px;
+	    	margin-bottom: 5px;
+	    	position:relative;
+	    	top:400px;
+	    	left:500px;
+
+	    }
+	    .bdnl{
+	    	float:left;
+	    	text-align: center;
+	    	height: 12px;
+	    	width:24%;
+	    	opacity: 1;
+	    	background-image: url(img/dot.png);
+	    	background-repeat:no-repeat;
+	    }
+	    .bdnl a{
+	    	font-size: 25px;
+	    	position: relative;
+	    	bottom:-5px;
+	    	list-style:none;
+	    }
+	    li{
+	    	list-style:none;
+	    }
+	    p{
+	    	display:none;
+	    }
+	    #arrowl{
+	    	display: block;
+	    	width: 35px;
+            height: 47px;
+            position: absolute;
+            top: 220px;
+	    }
+	    #arrowr{
+	    	display: block;
+            width: 35px;
+            height: 47px;
+            position: absolute;
+            top: 220px;
+            left:592px; 
+            float:left;
+	    }
+	    #arrowleft{
+	    	left:0;
+	    	float:left;
+	    }
+	    #arrowright{
+	    	position:absolute;
+	    	float:left;
+	    }
+	    #bdu{
+	    	width:100%;
+	    	padding-left:0px; 
+	    }
+	    .bdul{
+	    	width:100%;
+	    	height:375px;
+	    	z-index:1;
+	    }
+	</style>
+</head>
+<body onload="slide()">
+	<div class="picture">
+		<div class="clear"></div>
+		<div id="bdn">
+			<span class="bdnl" onmouseover="imgmove(0)" onmouseout="slide()"><a href="img/1.jpg"></a></span>
+			<span class="bdnl" onmouseover="imgmove(1)" onmouseout="slide()"><a href="img/2.jpg"></a></span>
+			<span class="bdnl" onmouseover="imgmove(2)" onmouseout="slide()"><a href="img/3.jpg"></a></span>
+			<span class="bdnl" onmouseover="imgmove(3)" onmouseout="slide()"><a href="img/4.jpg"></a></span>
+		</div>
+		<div id="arrowl" onclick="turnleft()">
+			<a id="arrowleft" ><img src="img/arrl.png"></img></a>
+		</div>
+		<div id="arrowr" onclick="turnright()">
+			<a id="arrowright" ><img src="img/arrr.png"></img></a>
+		</div>
+		<ul id="bdu">
+			<li class="bdul" onmouseover="stopslide()" onmouseout="slide()"><img src="img/1.jpg"></img></li>
+			<li class="bdul" onmouseover="stopslide()" onmouseout="slide()" style="display:none"><img src="img/2.jpg"></img></li>
+			<li class="bdul" onmouseover="stopslide()" onmouseout="slide()" style="display:none"><img src="img/3.jpg"></img></li>
+			<li class="bdul" onmouseover="stopslide()" onmouseout="slide()" style="display:none"><img src="img/4.jpg"></img></li>
+		</ul>
+		<script>
+		    var navl=document.getElementById("bdn").getElementsByTagName("span");
+            var image=document.getElementById("bdu").getElementsByTagName("li");
+            var x=0,t;
+		    //点击切换图片
+            var imgmove=function(n){
+            	clearInterval(t);
+		    	for (var i = 0; i<navl.length; i++) {
+                    for (var j = 0; j <image.length ;j++) {
+                    	image[j].style.display="none";
+                    }
+                    if(n==0)
+                        image[0].style.display="";
+                    if(n==1)
+                        image[1].style.display="";
+                    if(n==2)
+                        image[2].style.display="";
+                    if(n==3)
+                        image[3].style.display="";
+                    navl[n].style.backgroundImage = "url(img/dotchange.png)";
+		    	}
+		    }
+            //点击箭头切换
+            var turnleft=function(){
+            	clearInterval(t);
+            	for (var n=0;n<image.length;n++){
+            	    image[n].style.display="none"
+                }
+                var m=x;
+                if(m!=0){m=m-1;
+            		image[m].style.display="block";
+            	}
+            	if(m==0){
+            		image[3].style.display="block";
+            	}
+            	x=m;
+            }
+            var turnright=function(){
+            	clearInterval(t);
+            	for (var n=0;n<image.length;n++){
+            	    image[n].style.display="none"
+                }
+                var m=x;
+                if(m!=3){m=m+1;
+            		image[m].style.display="block";
+            	}
+            	if(m==3){
+            		image[0].style.display="block";
+            	}
+            	x=m;
+            }
+            //跑马灯（定时器）
+            var move=function(){
+            		for (var l=0;l<image.length;l++){
+            			image[l].style.display="none"
+            		}
+            		//显示一张
+            		image[x].style.display="block";
+                       x++;
+            		if(x==4){
+            			x=0;
+            		}
+            		if(x==3||x==2){
+            			navl[x-1].style.backgroundImage = "url(img/dotchange.png)";
+            			navl[x-2].style.backgroundImage = "url(img/dot.png)";
+            		}
+            		if(x==0){
+            			navl[3].style.backgroundImage = "url(img/dotchange.png)";
+            			navl[2].style.backgroundImage = "url(img/dot.png)";
+            		}
+            		if(x==1){
+            			navl[0].style.backgroundImage = "url(img/dotchange.png)";
+            			navl[3].style.backgroundImage = "url(img/dot.png)";
+            		}
+            	}
+
+            var slide=function(){
+            	t=setInterval(function(){
+            		move();}, 3000);
+            	navl[0].style.backgroundImage="url(img/dot.png)";
+            	navl[1].style.backgroundImage="url(img/dot.png)";
+            	navl[2].style.backgroundImage="url(img/dot.png)";
+            	navl[3].style.backgroundImage="url(img/dot.png)";
+            	//arrowleft.style.display="none";
+            	//arrowright.style.display="none";
+            	
+            }
+            var stopslide=function(){
+            	clearInterval(t);
+            	//arrowleft.style.display="block";
+            	//arrowright.style.display="block";
+            }
+		</script>
+	</div>
+</body>
+</html340
